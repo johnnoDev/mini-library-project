@@ -6,6 +6,19 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <h2>{{ author.name }}</h2>
+    <p>Cumpleaños {{ author.birth_date }}</p>
+    <a href="{% url 'author_update' pk=author.id_author %}">
+        Editar
+    </a>
+    <hr>
+    <a href="{% url 'author_delete' pk=author.id_author %}">
+        Eliminar
+    </a>
+    <hr>
+    <a href="{% url 'author_list' %}">
+        Volver al listado
+    </a>
+
 </body>
 </html>

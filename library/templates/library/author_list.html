@@ -8,7 +8,11 @@
 <body>
     <ul>
         {% for author in author_list %}
-            <li>{{ author.name }}</li>
+            <li>
+                <a href="{% url 'author_detail' pk=author.id_author %}">
+                    {{ author.name }}
+                </a>
+            </li>
         {% empty %}
             <li>No hay registros de autores.</li>
         {% endfor %}
