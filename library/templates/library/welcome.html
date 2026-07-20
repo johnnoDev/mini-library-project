@@ -4,10 +4,15 @@
     <h1> Bienvenido a la Biblioteca</h1>
     <ul>
         <li>
-            <a href="{% url 'author_list' %}">Lista de Autores</a>
+            <a href="{% url 'author_list' %}">Lista de Autores (CBV)</a>
         </li>
         <li>
-            <a href="{% url 'genre_list' %}">Lista de generos</a>
+            <a href="{% url 'genre_list' %}">Lista de generos (CBV)</a>
+        </li>
+        <hr>
+        <hr>
+        <li>
+            <a href="{% url 'author_list_fbv' %}"> Lista de Autores (FBV)</a>
         </li>
     </ul>
 {% endblock %}

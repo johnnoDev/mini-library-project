@@ -1,0 +1,17 @@
+{% extends 'library/base.html' %}
+
+{% block content %}
+    <ul>
+        {% for author in authors %}
+        <li> 
+            <a href="{% url 'author_detail_fbv' pk=author.id_author %}">
+                {{ author.name }}
+            </a>
+        </li>
+        {% empty %}
+        <li>
+            No hay registros de autores
+        </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'library/base.html' %}
+
+{% block content %}
+    <h2>{{ author.name }}</h2>
+    <p>{{ author.birth_date }}</p>
+
+    <a href="{% url 'author_update_fbv' pk=author.id_author %}">
+        Editar
+    </a>
+    <hr>
+    <a href="{% url 'author_delete_fbv' pk=author.id_author %}">
+        Eliminar
+    </a>
+    <hr>
+    <a href="{% url 'author_list_fbv' %}">
+        Volver al listado
+    </a>
+
+{% endblock %}

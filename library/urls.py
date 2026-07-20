@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from . import views
+from . import views, views_fbv
 
 urlpatterns = [
     path('', views.WelcomeTemplateView.as_view(), name='welcome_template'),
@@ -13,5 +13,13 @@ urlpatterns = [
     path('genres/<int:pk>/', views.GenreDetailView.as_view(), name='genre_detail'),
     path('genres/new/', views.GenreCreateView.as_view(), name='genre_create'),
     path('genres/<int:pk>/edit/', views.GenreUpdateView.as_view(), name='genre_update'),
-    path('genres/<int:pk>/delete/', views.GenreDeleteView.as_view(), name='genre_delete'),    
+    path('genres/<int:pk>/delete/', views.GenreDeleteView.as_view(), name='genre_delete'),
+    # ------------------------
+    # FBV
+    path('fbv/authors/', views_fbv.author_list_fbv, name='author_list_fbv'),
+    path('fbv/authors/<int:pk>/', views_fbv.author_detail_fbv, name='author_detail_fbv'),
+    path('fbv/authors/new/', views_fbv.author_create_fbv, name='author_create_fbv'),
+    path('fbv/authors/<int:pk>/edit/', views_fbv.author_update_fbv, name='author_update_fbv'),
+    path('fbv/authors/<int:pk>/delete/', views_fbv.author_delete_fbv, name='author_delete_fbv'),
+    
 ] 
