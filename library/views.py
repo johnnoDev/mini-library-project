@@ -5,20 +5,12 @@ from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 
-from .models import Author
+from .models import Author, Genre
+
 # Create your views here.
-
-# FBV
-def hello(request):
-    return HttpResponse('Hola mundo desde FBV')
-
-# CBV
-class Hello(View):
-    def get(self, request):
-        return HttpResponse('Hola mundo desde CSV')
     
 # TemplateView
-class Welcome(TemplateView):
+class WelcomeTemplateView(TemplateView):
     template_name = 'library/welcome.html'
     
 # ListView (READ)
@@ -26,7 +18,6 @@ class AuthorListView(ListView):
     model = Author
     template_name = 'library/author_list.html'
     
-
 """
 DetailView — la "R" singular
 Es la vista para ver un solo autor (por ejemplo al hacer click en un nombre de la lista). El patrón es casi idéntico al ListView:
@@ -49,3 +40,34 @@ class AuthorUpdateView(UpdateView):
 class AuthorDeleteView(DeleteView):
     model = Author
     success_url = reverse_lazy('author_list')
+    
+
+
+# -----------------------------------------------------
+
+# READ
+
+class GenreListView(ListView):
+    model = Genre
+    template_name = 'library/genre_list.html'
+    
+class GenreDetailView(DetailView):
+    model = Genre
+    template_name = 'library/genre_detail.html'
+    
+# CREATE
+class GenreCreateView(CreateView):
+    model = Genre
+    fields = ['name']
+    success_url = reverse_lazy('genre_list')
+        
+# UPDATE
+class GenreUpdateView(UpdateView):
+    model = Genre
+    fields = ['name']
+    success_url = reverse_lazy('genre_list')
+
+# DELETE
+class GenreDeleteView(DeleteView):
+    model = Genre
+    success_url = reverse_lazy('genre_list')

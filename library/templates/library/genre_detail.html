@@ -1,0 +1,24 @@
+{% extends 'library/base.html' %}
+
+{% block content %}
+    <h2>{{ genre.name }}</h2>
+    <ul>
+        <li>
+            <a href="{% url 'genre_update' pk=genre.id_genre %}">
+                Editar
+            </a>
+        </li>
+        <hr>
+        <li>
+            <a href="{% url 'genre_delete' pk=genre.id_genre %}">
+                Eliminar
+            </a>
+        </li>
+        <hr>
+        <li>
+            <a href="{% url 'genre_list' %}">
+                Volver a la lista de generos
+            </a>
+        </li>
+    </ul>
+{% endblock %}

@@ -1,11 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Hola mundo desde Welcome</h1>
-</body>
-</html>
+{% extends 'library/base.html' %}
+
+{% block content %}
+    <h1> Bienvenido a la Biblioteca</h1>
+    <ul>
+        <li>
+            <a href="{% url 'author_list' %}">Lista de Autores</a>
+        </li>
+        <li>
+            <a href="{% url 'genre_list' %}">Lista de generos</a>
+        </li>
+    </ul>
+{% endblock %}
+    

@@ -1,0 +1,20 @@
+{% extends 'library/base.html' %}
+
+
+{% block content %}
+    <ul>
+        {% for genre in genre_list %}
+        <li>
+            <a href="{% url 'genre_detail' pk=genre.id_genre %}">
+                {{ genre.name }}
+            </a>
+        </li>
+        {% empty %}
+        <li>
+            No hay registros de generos
+        </li>
+        {% endfor %}
+    </ul>    
+
+{% endblock %}
+    
