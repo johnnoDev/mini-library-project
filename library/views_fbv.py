@@ -1,4 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 from .models import Author
 from .forms import AuthorForm
 
@@ -19,8 +21,9 @@ def author_create_fbv(request):
     if request.method == 'POST':
         form = AuthorForm(request.POST) # Pasar los datos que tipeo el usuario
         if form.is_valid():
-            form.save()
-            return redirect('author_list_fbv')
+            nuevo_autor = form.save()
+            url = reverse('author_detail_fbv', kwargs={'pk': nuevo_autor.pk})
+            return HttpResponseRedirect(url)
     else:
         """
         si es un GET (primera visita), armás un formulario vacío, sin datos, solo para mostrarlo.
