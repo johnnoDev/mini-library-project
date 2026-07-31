@@ -6,6 +6,28 @@
     <title>Document</title>
 </head>
 <body>
+    
+    {% if name == 'Johnny' %}
+        <h1>Hola Johnnt</h1>
+    {% elif name == 'Carlos' %}
+        <h1>Hola Carlooos</h1>
+    {% else %}
+        <h1>Hola invitado</h1>
+    {% endif %}
+
+    <ul>
+    {% for lenguaje in lenguajes %}
+        <li>
+            <a href="{% url 'stack' lenguaje.id %}">
+                {{ lenguaje.name }}
+            </a>
+        </li>
+    {% empty %}
+        <li>No hay lenguajes disponibles</li>
+    {% endfor %}
+    </ul>
+            
+        
     <h1>Hola desde Home</h1>
     {{ name }}
     <hr>
