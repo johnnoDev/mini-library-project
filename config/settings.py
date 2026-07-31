@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'quotes',
     'landing',
     'django_extensions',
+    'notas',
+
 ]
 
 MIDDLEWARE = [
