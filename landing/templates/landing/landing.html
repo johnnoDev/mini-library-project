@@ -3,6 +3,7 @@
 {% block title %}Aplicacion{% endblock %}
     
 {% block content %}
+    {% include './includes/partial.html' %}
     {% if name == 'Johnny' %}
         <h1>Hola Johnnt</h1>
     {% elif name == 'Carlos' %}
@@ -29,4 +30,6 @@
     {{ age }}
     <hr>
     {{ date | date:"d/m/Y"}}
+
+    {% include './includes/endpartial.html' %}
 {% endblock %}
