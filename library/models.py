@@ -27,6 +27,10 @@ class Book(models.Model):
         Author, on_delete=models.CASCADE, related_name='books'
     )
     genres = models.ManyToManyField(Genre, related_name='books') # Tabla intermedia
+
+    class Meta: 
+        verbose_name = 'Libro'
+        verbose_name_plural = 'Libros'
     
     def __str__(self):
         return self.title
