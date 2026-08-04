@@ -6,10 +6,16 @@ class Author(models.Model):
     id_author = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     birth_date = models.DateField(null=True, blank=True)
+
+    def __str__(self):
+        return self.name
     
 class Genre(models.Model):
     id_genre = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
     
 class Book(models.Model):
     id_book = models.AutoField(primary_key=True)
