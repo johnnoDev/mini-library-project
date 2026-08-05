@@ -7,6 +7,12 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 User = get_user_model()
 
+@admin.action(description='Marcar como devuelto el préstamo')
+def mark_as_returned(modeladmin, request, queryset):
+    queryset.update(is_returned=True)
+    
+
+
 class LoanInline(admin.TabularInline):
     model = Loan
     extra = 1
@@ -45,8 +51,7 @@ class BookAdmin(admin.ModelAdmin):
 @admin.register(Loan)
 class LoanAdmin((admin.ModelAdmin)):
     list_display = ('user', 'book', 'load_date', 'return_date', 'is_returned')
-
-
+    actions = [mark_as_returned]
 
 
 admin.site.register(Author)
