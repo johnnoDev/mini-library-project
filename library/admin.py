@@ -1,7 +1,19 @@
 from django.contrib import admin
 from .models import Author, Book, Genre, BookDetail, Review, Loan
+from django.contrib.auth import get_user_model
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 # Register your models here.
+
+User = get_user_model()
+
+class LoanInline(admin.TabularInline):
+    model = Loan
+    extra = 1
+    
+class CustomUserAdmin(BaseUserAdmin):
+    inlines = [LoanInline]
+    list_display = ('username', 'email')
 
 class ReviewInline(admin.TabularInline):
     model = Review
@@ -27,3 +39,10 @@ admin.site.register(Genre)
 admin.site.register(BookDetail)
 admin.site.register(Review)
 admin.site.register(Loan)
+
+try:
+    admin.site.unregister(User)
+except admin.sites.NotRegistered:
+    pass
+
+admin.site.register(User, CustomUserAdmin)
