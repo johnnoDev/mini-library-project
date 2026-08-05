@@ -32,13 +32,29 @@ class BookAdmin(admin.ModelAdmin):
     list_filter = ('author', 'genres', 'publication_date') # Crea un panel lateral derecho con filtros rápidos
     ordering = ['publication_date'] # Define el orden predeterminado en el que se mostrarán los registros al cargar la página
     date_hierarchy = 'publication_date' # Agrega una barra de navegación basada en fechas en la parte superior de la vista de lista
+    fieldsets = (
+        ('informacion general', {
+            'fields': ('title', 'author', 'publication_date', 'genres')
+        }),
+        ('Detalles', {
+            'fields': ('isbn', 'pages'),
+            'classes': ('collapse',) # Oculta la información opcionalmente
+        })
+    )
+    
+@admin.register(Loan)
+class LoanAdmin((admin.ModelAdmin)):
+    list_display = ('user', 'book', 'load_date', 'return_date', 'is_returned')
+
+
+
 
 admin.site.register(Author)
 # admin.site.register(Book, BookAdmin)
 admin.site.register(Genre)
 admin.site.register(BookDetail)
 admin.site.register(Review)
-admin.site.register(Loan)
+# admin.site.register(Loan)
 
 try:
     admin.site.unregister(User)
