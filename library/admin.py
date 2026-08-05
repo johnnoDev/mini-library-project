@@ -58,12 +58,20 @@ class BookAdmin(admin.ModelAdmin):
     )
     # Campos autocompletado
     autocomplete_fields = ('author', 'genres')
+
+    def has_add_permission(self, request):
+        return request.user.is_superuser
+
+    def has_change_permission(self, request, obj = None):
+        return request.user.is_staff
     
 @admin.register(Loan)
 class LoanAdmin((admin.ModelAdmin)):
     list_display = ('user', 'book', 'load_date', 'return_date', 'is_returned')
     actions = [mark_as_returned]
     raw_id_fields = ('user', 'book')
+
+
 
 
 # admin.site.register(Author)
