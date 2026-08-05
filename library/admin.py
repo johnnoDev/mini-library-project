@@ -5,6 +5,11 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 # Register your models here.
 
+admin.site.site_header = 'Administración de Mini-Library'
+admin.site.site_title = 'Panel de Control'
+admin.site.index_title = 'Minilibrary'
+
+
 User = get_user_model()
 
 @admin.action(description='Marcar como devuelto el préstamo')
