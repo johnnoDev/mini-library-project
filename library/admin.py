@@ -30,6 +30,15 @@ class BookDetailInline(admin.StackedInline):
     can_delete = False
     verbose_name_plural = 'Detalle del libro'
 
+@admin.register(Author)
+class AuthorAdmin(admin.ModelAdmin):
+    search_fields = ['name']
+
+@admin.register(Genre)
+class GenreAdmin(admin.ModelAdmin):
+    search_fields = ['name']
+
+
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
     inlines = [ReviewInline, BookDetailInline]
@@ -47,6 +56,8 @@ class BookAdmin(admin.ModelAdmin):
             'classes': ('collapse',) # Oculta la información opcionalmente
         })
     )
+    # Campos autocompletado
+    autocomplete_fields = ('author', 'genres')
     
 @admin.register(Loan)
 class LoanAdmin((admin.ModelAdmin)):
@@ -54,9 +65,9 @@ class LoanAdmin((admin.ModelAdmin)):
     actions = [mark_as_returned]
 
 
-admin.site.register(Author)
+# admin.site.register(Author)
 # admin.site.register(Book, BookAdmin)
-admin.site.register(Genre)
+# admin.site.register(Genre)
 admin.site.register(BookDetail)
 admin.site.register(Review)
 # admin.site.register(Loan)
