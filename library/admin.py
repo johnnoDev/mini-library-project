@@ -63,6 +63,7 @@ class BookAdmin(admin.ModelAdmin):
 class LoanAdmin((admin.ModelAdmin)):
     list_display = ('user', 'book', 'load_date', 'return_date', 'is_returned')
     actions = [mark_as_returned]
+    raw_id_fields = ('user', 'book')
 
 
 # admin.site.register(Author)
