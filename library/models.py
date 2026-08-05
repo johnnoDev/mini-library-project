@@ -21,6 +21,10 @@ class Book(models.Model):
         Author, on_delete=models.CASCADE, related_name='books'
     )
     genres = models.ManyToManyField(Genre, related_name='books') # Tabla intermedia
+    recommended_by = models.ManyToManyField(
+        get_user_model(), through="Recommendation", related_name='recommendations',
+    )    
+
     
     def __str__(self):
         return self.title
@@ -62,3 +66,16 @@ class Loan(models.Model):
     
     def __str__(self):
         return f'{self.user} -> {self.book} Estado=({"Devuelto" if self.is_returned else "Prestado"})'
+    
+class Recommendation(models.Model):
+    user = models.ForeignKey(
+        get_user_model(), on_delete=models.CASCADE
+    )
+    book = models.ForeignKey(
+        Book, on_delete=models.CASCADE, related_name='recommendations'
+    )
+    recommended_at = models.DateTimeField(auto_now_add=True)
+    notes = models.TextField()
+    
+    class Meta:
+        unique_together = ("user", "book")
