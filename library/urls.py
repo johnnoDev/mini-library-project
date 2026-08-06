@@ -3,7 +3,8 @@ from django.urls import path
 from . import views, views_fbv
 
 urlpatterns = [
-    path('', views.WelcomeTemplateView.as_view(), name='welcome_template'),
+    path('', views.index, name='index'),
+    # path('', views.WelcomeTemplateView.as_view(), name='welcome_template'),
     path('authors/', views.AuthorListView.as_view(), name='author_list'),
     path('authors/<int:pk>/', views.AuthorDetailView.as_view(), name='author_detail'),
     path('authors/new/', views.AuthorCreateView.as_view(), name='author_create'),

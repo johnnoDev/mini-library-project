@@ -1,14 +1,34 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-from django.views import View
+from django.http import HttpResponseNotFound
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 
-from .models import Author, Genre
+from .models import Author, Genre, Book
 
 # Create your views here.
     
+
+
+def index(request):
+    # try:
+        books = Book.objects.all()
+        author_id = request.GET.get('author') # parametro (?author=)
+        genre_id = request.GET.get('genre') # parametro (...&genre=)
+        
+        if author_id:
+            books = books.filter(author_id=author_id)
+            
+        if genre_id:
+            books = books.filter(genres__id_genre=genre_id)
+        
+        return render(request, 'library/index.html', {
+            'author': author_id,
+            'books': books, 
+        })
+    # except Exception:
+    #     return HttpResponseNotFound('Página no encontrada')
+
 # TemplateView
 class WelcomeTemplateView(TemplateView):
     template_name = 'library/welcome.html'
