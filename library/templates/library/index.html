@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Index
+{% endblock title %}
+
+
+{% block blockname %}
+    
+{% endblock blockname %}
+    
+
+{% block content %}
+    Hola desde index
+    <p>
+        {{ author }}
+    </p>
+    <ul>
+        {% for book in books %}
+        <li> 
+            {{ book }} 
+        </li>  
+        
+        {% empty %}
+        <li>
+            No se encontraron libros asociados
+        </li>
+
+        {% endfor %}
+    </ul>
+
+
+{% endblock content %}
+    
