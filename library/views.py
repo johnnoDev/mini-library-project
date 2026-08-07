@@ -4,6 +4,7 @@ from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.db.models import Q
+from django.core.paginator import Paginator
 
 from .models import Author, Genre, Book
 
@@ -20,9 +21,19 @@ def index(request):
             books = books.filter(
                 Q(title__icontains=query) | Q(author__name__icontains=query)
             )
+            
+        # Iniciar el paginador (e.j 5 libros por pagina)
+        paginator = Paginator(books, 5)
+        
+        # Obtener el número de página actual desde los parámetros de la URL (?page=2)
+        page_number = request.GET.get('page')
+        
+        # Obtener los objetos de la página solicitada
+        page_obj = paginator.get_page(page_number)
+            
                 
         return render(request, 'library/index.html', {
-            'books': books, 
+            'page_obj': page_obj, 
             'query': query
         })
     # except Exception:

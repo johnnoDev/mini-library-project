@@ -17,7 +17,7 @@
         <button type="submit">Enviar</button>
     </form>
     <ul>
-        {% for book in books %}
+        {% for book in page_obj %}
             <li>{{ book.title }} - {{ book.author.name }}</li>
         {% endfor %}    
     </ul>
