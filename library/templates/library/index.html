@@ -13,12 +13,14 @@
 {% block content %}
     Hola desde index
     <form method='get'>
-        <input type="text" name="query_search" placeholder="Ingresa el autor", value="{{ query }}">
+        <input type="text" name="query_search" placeholder="Ingresa el autor", value="{% if query %}{{ query }}{% endif %}">
+        <input type="date" name="start" value='{{request.GET.get.start}}'>
+        <input type="date" name="end" value='{{request.GET.end}}'>
         <button type="submit">Enviar</button>
     </form>
     <ul>
         {% for book in page_obj %}
-            <li>{{ book.title }} - {{ book.author.name }}</li>
+            <li>{{ book.title }} - {{ book.author.name }} - {{ book.publication_date }}</li>
         {% endfor %}    
     </ul>
 

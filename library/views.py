@@ -16,12 +16,21 @@ def index(request):
     # try:
         books = Book.objects.all()
         query = request.GET.get('query_search')
+
+        date_start = request.GET.get('start')
+        date_end = request.GET.get('end')
         
         if query:
             books = books.filter(
                 Q(title__icontains=query) | Q(author__name__icontains=query)
             )
-            
+
+        if date_start and date_end:
+            books = books.filter(
+                publication_date__range=[date_start, date_end] # Rango de fechas
+            )
+
+        
         # Iniciar el paginador (e.j 5 libros por pagina)
         paginator = Paginator(books, 5)
         
@@ -30,7 +39,8 @@ def index(request):
         
         # Obtener los objetos de la página solicitada
         page_obj = paginator.get_page(page_number)
-            
+
+        
                 
         return render(request, 'library/index.html', {
             'page_obj': page_obj, 
