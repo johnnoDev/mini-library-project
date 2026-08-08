@@ -14,7 +14,7 @@
     Hola desde index
     <form method='get'>
         <input type="text" name="query_search" placeholder="Ingresa el autor", value="{% if query %}{{ query }}{% endif %}">
-        <input type="date" name="start" value='{{request.GET.get.start}}'>
+        <input type="date" name="start" value='{{request.GET.start}}'>
         <input type="date" name="end" value='{{request.GET.end}}'>
         <button type="submit">Enviar</button>
     </form>
@@ -27,15 +27,15 @@
     <div>
         
         {% if page_obj.has_previous %}
-            <a href="?query_search={{ query }}&page=1">Primera</a>
-            <a href="?query_search={{ query }}&page={{ page_obj.previous_page_number }}">Anterior</a>
+            <a href="?{{ query_string }}&page=1">Primera</a>
+            <a href="?{{ query_string }}&page={{ page_obj.previous_page_number }}">Anterior</a>
         {% endif %}
 
         <span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }} </span>
 
         {% if page_obj.has_next %}
-            <a href="?query_search={{ query }}&page={{ page_obj.next_page_number }}">Siguiente</a>
-            <a href="?query_search={{ query }}&page={{ page_obj.paginator.num_pages }}">Último</a>
+            <a href="?{{ query_string }}&page={{ page_obj.next_page_number }}">Siguiente</a>
+            <a href="?{{ query_string }}&page={{ page_obj.paginator.num_pages }}">Último</a>
             
         {% endif %}
             

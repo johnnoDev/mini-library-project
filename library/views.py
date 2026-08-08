@@ -40,11 +40,17 @@ def index(request):
         # Obtener los objetos de la página solicitada
         page_obj = paginator.get_page(page_number)
 
-        
-                
+        query_params = request.GET.copy()
+
+        if 'page' in query_params:
+            query_params.pop('page')
+
+        query_string = query_params.urlencode()
+
         return render(request, 'library/index.html', {
             'page_obj': page_obj, 
-            'query': query
+            'query': query,
+            'query_string': query_string,
         })
     # except Exception:
     #     return HttpResponseNotFound('Página no encontrada')
