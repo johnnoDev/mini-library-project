@@ -55,6 +55,9 @@ def index(request):
     # except Exception:
     #     return HttpResponseNotFound('Página no encontrada')
 
+def add_review(request, book):
+    pass
+
 # TemplateView
 class WelcomeTemplateView(TemplateView):
     template_name = 'library/welcome.html'

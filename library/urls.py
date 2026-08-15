@@ -4,6 +4,7 @@ from . import views, views_fbv
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('recomendar/<int:book_id>', views.add_review, name='recommend_book'),
     # path('', views.WelcomeTemplateView.as_view(), name='welcome_template'),
     path('authors/', views.AuthorListView.as_view(), name='author_list'),
     path('authors/<int:pk>/', views.AuthorDetailView.as_view(), name='author_detail'),
