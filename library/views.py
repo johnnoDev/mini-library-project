@@ -58,25 +58,26 @@ def index(request):
     #     return HttpResponseNotFound('Página no encontrada')
 
 def add_review(request, book_id):
-    book = get_object_or_404(Book, book_id=book_id)
+    book = get_object_or_404(Book, id_book=book_id)
     form = ReviewSimpleForm(request.POST or None)
 
     if request.method == 'POST':
         if form.is_valid():
-            rating = form.cleaned_data("rating")
-            text = form.cleaned_data("text")
+            rating = form.cleaned_data["rating"]
+            text = form.cleaned_data["text"]
             user = request.user if request.user.is_authenticated else User.objects.first()
 
-        Review.objects.create(
-            user = user,
-            book = book,
-            rating = rating,
-            text = text,
-        )
-        messages.success(request, 'Gracias por la reseña!!')
-        return redirect('recommend_book', book_id=book_id)
-    else:
-        messages.error(request, 'Error en la reseña')
+            Review.objects.create(
+                user = user,
+                book = book,
+                rating = rating,
+                text = text,
+            )
+            messages.success(request, 'Gracias por la reseña!!')
+            return redirect('recommend_book', book_id=book.id_book)
+        
+        else:
+            messages.error(request, 'Error en la reseña')
 
     return render(request, 'library/add_review.html', {
         "book": book,
