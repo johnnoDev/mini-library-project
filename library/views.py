@@ -1,15 +1,17 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseNotFound
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.db.models import Q
 from django.core.paginator import Paginator
-
-from .models import Author, Genre, Book
+from .forms import ReviewSimpleForm
+from .models import Author, Genre, Book, Review
+from django.contrib.auth import get_user_model
+from django.contrib import messages
 
 # Create your views here.
-    
+User = get_user_model()
 
 
 def index(request):
@@ -55,8 +57,31 @@ def index(request):
     # except Exception:
     #     return HttpResponseNotFound('Página no encontrada')
 
-def add_review(request, book):
-    pass
+def add_review(request, book_id):
+    book = get_object_or_404(Book, book_id=book_id)
+    form = ReviewSimpleForm(request.POST or None)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            rating = form.cleaned_data("rating")
+            text = form.cleaned_data("text")
+            user = request.user if request.user.is_authenticated else User.objects.first()
+
+        Review.objects.create(
+            user = user,
+            book = book,
+            rating = rating,
+            text = text,
+        )
+        messages.success(request, 'Gracias por la reseña!!')
+        return redirect('recommend_book', book_id=book_id)
+    else:
+        messages.error(request, 'Error en la reseña')
+
+    return render(request, 'library/add_review.html', {
+        "book": book,
+        "form": form
+    })
 
 # TemplateView
 class WelcomeTemplateView(TemplateView):

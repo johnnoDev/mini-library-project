@@ -7,7 +7,7 @@ class AuthorForm(forms.ModelForm):
         fields = ['name', 'birth_date']
 
 class ReviewSimpleForm(forms.Form):
-    raiting = forms.IntegerField(
+    rating = forms.IntegerField(
         min_value=1, max_value=5,
         widget=forms.NumberInput(attrs={
             'placeholder': 'Califica del 1 al 5',
