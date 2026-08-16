@@ -67,8 +67,11 @@ def add_review(request, book_id):
             review.book = book
             review.user = request.user
             review.save()
-
-            messages.success(request, 'Gracias por la reseña!!')
+            would_recommend = form.cleaned_data.get('would_recommend')
+            if would_recommend:
+                messages.success(request, 'Gracias por la reseña y por recomendar el libro!!')
+            else:
+                messages.success(request, 'Gracias por la reseña.')
             return redirect('recommend_book', book_id=book.id_book)
         
         else:

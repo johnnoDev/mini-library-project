@@ -25,6 +25,10 @@ class ReviewSimpleForm(forms.Form):
 BAD_WORDS = ['estupido', 'mugroso', 'malo', 'cabron']
 
 class ReviewForm(forms.ModelForm):
+    would_recommend = forms.BooleanField(
+        label='¿Recomendarías este libro?',
+        required=False
+    )
     class Meta:
         model = Review
         fields = ['rating', 'text']
@@ -65,3 +69,11 @@ class ReviewForm(forms.ModelForm):
                 'Si la reseña es de 1 estrella, por favor específica mayormente tu comentario'
             )
         return cleaned_data
+
+    def save(self, commit=True):
+        review = super().save(commit=False)
+
+        if commit:
+            review.save()
+
+        return review
