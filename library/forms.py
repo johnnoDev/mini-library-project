@@ -26,3 +26,11 @@ class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
         fields = ['rating', 'text']
+
+    def clean_rating(self):
+        rating = self.cleaned_data['rating']
+        if rating < 1 or rating > 5:
+            raise forms.ValidationError(
+                'La calificación debe ser entre 1 y 5'
+            )
+        return rating
