@@ -72,7 +72,7 @@ def add_review(request, book_id):
             return redirect('recommend_book', book_id=book.id_book)
         
         else:
-            messages.error(request, 'Error en la reseña')
+            messages.error(request, 'Error en la reseña', 'danger')
 
     return render(request, 'library/add_review.html', {
         "book": book,

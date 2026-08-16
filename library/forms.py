@@ -28,6 +28,16 @@ class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
         fields = ['rating', 'text']
+        widgets = {
+            'rating': forms.NumberInput(attrs={
+                'placeholder': 'Ingresa la calificación',
+                'class': 'form-control'
+            }),
+            'text': forms.Textarea(attrs={
+                'placeholder': 'Escribe tu reseña...',
+                'class': 'form-control'
+            }),
+        }
 
     def clean_rating(self):
         rating = self.cleaned_data['rating']
