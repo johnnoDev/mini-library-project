@@ -5,7 +5,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.db.models import Q
 from django.core.paginator import Paginator
-from .forms import ReviewSimpleForm
+from .forms import ReviewSimpleForm, ReviewForm
 from .models import Author, Genre, Book, Review
 from django.contrib.auth import get_user_model
 from django.contrib import messages
@@ -59,20 +59,15 @@ def index(request):
 
 def add_review(request, book_id):
     book = get_object_or_404(Book, id_book=book_id)
-    form = ReviewSimpleForm(request.POST or None)
+    form = ReviewForm(request.POST or None)
 
     if request.method == 'POST':
         if form.is_valid():
-            rating = form.cleaned_data["rating"]
-            text = form.cleaned_data["text"]
-            user = request.user if request.user.is_authenticated else User.objects.first()
+            review = form.save(commit=False)
+            review.book = book
+            review.user = request.user
+            review.save()
 
-            Review.objects.create(
-                user = user,
-                book = book,
-                rating = rating,
-                text = text,
-            )
             messages.success(request, 'Gracias por la reseña!!')
             return redirect('recommend_book', book_id=book.id_book)
         
