@@ -34,3 +34,13 @@ class ReviewForm(forms.ModelForm):
                 'La calificación debe ser entre 1 y 5'
             )
         return rating
+
+    def clean(self):
+        cleaned_data = super().clean()
+        rating = cleaned_data.get('rating')
+        text = cleaned_data.get('text')
+        if rating == 1 and len(text) < 10:
+            raise forms.ValidationError(
+                'Si la reseña es de 1 estrella, por favor específica mayormente tu comentario'
+            )
+        return cleaned_data
