@@ -22,6 +22,8 @@ class ReviewSimpleForm(forms.Form):
         })
     )
 
+BAD_WORDS = ['estupido', 'mugroso', 'malo', 'cabron']
+
 class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
@@ -34,6 +36,15 @@ class ReviewForm(forms.ModelForm):
                 'La calificación debe ser entre 1 y 5'
             )
         return rating
+
+    def clean_text(self):
+        text = self.cleaned_data['text']
+        for word in BAD_WORDS:
+            if word in text.lower():
+                raise forms.ValidationError(
+                    f'Has dicho una mala palabra: {word}; por favor, vuelve a redactar su reseña'
+                )
+        return text
 
     def clean(self):
         cleaned_data = super().clean()
