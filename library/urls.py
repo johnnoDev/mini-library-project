@@ -3,8 +3,8 @@ from django.urls import path
 from . import views, views_fbv
 
 urlpatterns = [
-    path('', views.index, name='index'),
-    # path('', views.WelcomeTemplateView.as_view(), name='welcome_template'),
+    # path('', views.index, name='index'),
+    path('', views.WelcomeTemplateView.as_view(), name='welcome_template'),
     path('authors/', views.AuthorListView.as_view(), name='author_list'),
     path('authors/<int:pk>/', views.AuthorDetailView.as_view(), name='author_detail'),
     path('authors/new/', views.AuthorCreateView.as_view(), name='author_create'),
@@ -22,5 +22,10 @@ urlpatterns = [
     path('fbv/authors/new/', views_fbv.author_create_fbv, name='author_create_fbv'),
     path('fbv/authors/<int:pk>/edit/', views_fbv.author_update_fbv, name='author_update_fbv'),
     path('fbv/authors/<int:pk>/delete/', views_fbv.author_delete_fbv, name='author_delete_fbv'),
+    
+    # -------------------------------------------------------------------------------------------
+    # CBV - Model Book
+    path('books/', views.BookListView.as_view(), name ='book_list'),
+    path('books/<int:pk>/', views.BookDetailView.as_view(), name='book_detail')
     
 ] 

@@ -43,6 +43,37 @@ def index(request):
 class WelcomeTemplateView(TemplateView):
     template_name = 'library/welcome.html'
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)    
+        context['total_books'] = Book.objects.count()
+        return context
+    
+# Models: Book --------------------------
+class BookListView(ListView):
+    model = Book
+    template_name = 'library/book_list.html'
+    context_object_name = 'books'
+    paginate_by = 5
+    
+class BookDetailView(DetailView):
+    model = Book
+    template_name = 'library/book_detail.html'
+    context_object_name = 'book'
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+    
 # ListView (READ)
 class AuthorListView(ListView):
     model = Author

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    
+    <h3>Libros disponibles</h3>
+    <ul>
+        {% for book in books %}
+            <li>
+                <a href="{% url 'book_detail' pk=book.id_book %}">{{ book.title }}</a> - {{ book.author.name }}</li>
+        {% endfor %}
+    </ul>
+
+    
+    {% if is_paginated %}
+        
+        {% if page_obj.has_previous %}
+            <a href="?page=1">Primero</a>
+            <a href="?page={{page_obj.previous_page_number}}">Anterior</a>
+        {% endif %}
+
+        <span>Pagina {{page_obj.number}} de {{page_obj.paginator.num_pages}}</span>
+        
+        {% if page_obj.has_next %}
+            <a href="?page={{page_obj.next_page_number}}">Siguiente</a>
+            <a href="?page={{page_obj.paginator.num_pages}}">Ultimo</a>
+        {% endif %}
+            
+    {% endif %}
+        
+        
+{% endblock content %}
+    
