@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <h2>¿Seguro/a que quieres eliminar la reseña?</h2>
+    <p><strong>{{ review.book.title }}</strong></p>
+    <p>{{ review.text }}</p>
+
+    <form method='post'>
+        {% csrf_token %}
+        <button type='submit' class = 'btn btn-danger'>
+            Sí, eliminar
+        </button>
+        <a href="{{review.book.get_absolute_url}}" class='btn btn-secundary'>Cancelar</a>
+    </form>
+
+{% endblock content %}
+    

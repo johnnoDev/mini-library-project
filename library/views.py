@@ -134,6 +134,18 @@ class ReviewUpdateView(UpdateView):
         book_id = review.book.id_book
         return reverse_lazy('book_detail', kwargs={'pk': book_id})
 
+class ReviewDeleteView(DeleteView):
+    model = Review
+    template_name = 'library/review_confirm_delete.html'
+    success_url = reverse_lazy('book_list')
+    context_object_name = 'review'
+
+    def get_queryset(self):
+        return Review.objects.filter(user_id=1)
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, 'La reseña fue eliminada con exito!')
+        return super().delete(self, request, *args, **kwargs)
 
 # ListView (READ)
 class AuthorListView(ListView):
