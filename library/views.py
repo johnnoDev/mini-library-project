@@ -103,6 +103,7 @@ class BookDetailView(DetailView):
     template_name = 'library/book_detail.html'
     context_object_name = 'book'
 
+# --------- Review
 class ReviewCreateView(CreateView):
     model = Review
     template_name = 'library/add_review.html'
@@ -119,7 +120,21 @@ class ReviewCreateView(CreateView):
     def get_success_url(self):
         return reverse_lazy('book_detail', kwargs={'pk': self.kwargs.get('pk')})
         
+class ReviewUpdateView(UpdateView):
+    model = Review
+    template_name = 'library/add_review.html'
+    form_class = ReviewForm
     
+    def form_valid(self, form):
+        messages.success(self.request, 'Gracias por su reseña')
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        review = Review.objects.get(pk=self.kwargs.get('pk'))
+        book_id = review.book.id_book
+        return reverse_lazy('book_detail', kwargs={'pk': book_id})
+
+
 # ListView (READ)
 class AuthorListView(ListView):
     model = Author
