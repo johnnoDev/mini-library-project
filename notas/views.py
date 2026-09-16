@@ -1,9 +1,16 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import CreateView
+from django.http import HttpResponse
 from .models import *
 from .forms import *
 
 # Create your views here.
+def counter_visit(request):
+    visit = request.session.get('visitas', 0)
+    visit += 1
+    request.session['visitas'] = visit
+    return HttpResponse(f"Has visitado está página {visit} veces")
+
 class MatriculaDetalleCreateView(CreateView):
     model = MatriculaDetalle
     form_class = MatriculaDetalleForm

@@ -21,5 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('quotes/', include('quotes.urls')),
     path('library/', include('library.urls')),
-    path('landing/', include('landing.urls'))
+    path('landing/', include('landing.urls')),
+    path('notas/', include('notas.urls'))
 ]
