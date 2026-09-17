@@ -9,6 +9,7 @@ def counter_visit(request):
     visit = request.session.get('visitas', 0)
     visit += 1
     request.session['visitas'] = visit
+    request.session.set_expiry(15)
     return HttpResponse(f"Has visitado está página {visit} veces")
 
 class MatriculaDetalleCreateView(CreateView):

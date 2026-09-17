@@ -127,3 +127,11 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
+# La sesión dura 1 hora (3600 segundos)
+SESSION_COOKIE_AGE = 3600
+
+# La sesión NO expira al cerrar el navegador
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+
+# Guarde la sesión en la BD y actualice la cookie cada vez que el usuario haga un request
+SESSION_SAVE_EVERY_REQUEST = True
