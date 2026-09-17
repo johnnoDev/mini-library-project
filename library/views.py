@@ -9,6 +9,7 @@ from .forms import ReviewSimpleForm, ReviewForm
 from .models import Author, Genre, Book, Review
 from django.contrib.auth import get_user_model
 from django.contrib import messages
+from django.http import HttpResponse
 
 # Create your views here.
 User = get_user_model()
@@ -21,6 +22,7 @@ def index(request):
 
         date_start = request.GET.get('start')
         date_end = request.GET.get('end')
+        book_id_recommend = request.session.get('last_viewed_book')
         
         if query:
             books = books.filter(
@@ -49,10 +51,19 @@ def index(request):
 
         query_string = query_params.urlencode()
 
+        if book_id_recommend:
+            try: 
+                last_book = Book.objects.get(pk=book_id_recommend)
+            except Book.DoesNotExist:
+                last_book = None
+        else:
+            last_book = None
+        
         return render(request, 'library/index.html', {
             'page_obj': page_obj, 
             'query': query,
             'query_string': query_string,
+            'last_book': last_book
         })
     # except Exception:
     #     return HttpResponseNotFound('Página no encontrada')
@@ -102,6 +113,11 @@ class BookDetailView(DetailView):
     model = Book
     template_name = 'library/book_detail.html'
     context_object_name = 'book'
+    
+    def get(self, request, *args, **kwargs):
+        response = super().get(request, *args, **kwargs)
+        request.session['last_viewed_book'] = self.object.id_book
+        return response
 
 # --------- Review
 class ReviewCreateView(CreateView):
@@ -205,3 +221,10 @@ class GenreUpdateView(UpdateView):
 class GenreDeleteView(DeleteView):
     model = Genre
     success_url = reverse_lazy('genre_list')
+
+def counter_visit(request):
+    visit = request.session.get('visitas', 0)
+    visit += 1
+    request.session['visitas'] = visit
+    request.session.set_expiry(0)
+    return HttpResponse(f"Has visitado está página {visit} veces")

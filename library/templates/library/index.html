@@ -38,6 +38,13 @@
             <a href="?{{ query_string }}&page={{ page_obj.paginator.num_pages }}">Último</a>
             
         {% endif %}
+        
+        
+        {% if last_book %}
+            <p>Último libro visitado: <a href="{% url 'book_detail' last_book.pk %}">{{last_book.title}}</a></p>
+        {% else %}
+            <p>No has visitado ningún libro aún</p>
+        {% endif %}
             
             
     </div>
