@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from . import views, views_fbv
+from django.contrib.auth.views import LoginView, LogoutView
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -29,5 +30,10 @@ urlpatterns = [
     path('books/<int:pk>/', views.BookDetailView.as_view(), name='book_detail'),
     path('books/<int:pk>/review/', views.ReviewCreateView.as_view(), name='add_review'),
     path('review/<int:pk>/edit/', views.ReviewUpdateView.as_view(), name='update_review'),
-    path('review/<int:pk>/delete/', views.ReviewDeleteView.as_view(), name='delete_review')        
+    path('review/<int:pk>/delete/', views.ReviewDeleteView.as_view(), name='delete_review'),
+
+    # login
+    path('login/', LoginView.as_view(template_name='registration/login.html'), name='login'),
+    # logout
+    path('logout/', LogoutView.as_view(), name='logout')
 ] 
