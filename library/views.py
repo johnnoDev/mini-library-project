@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseNotFound, HttpResponseForbidden
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
@@ -10,8 +10,8 @@ from .models import Author, Genre, Book, Review
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.http import HttpResponse
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 # Create your views here.
 User = get_user_model()
@@ -70,6 +70,7 @@ def index(request):
     # except Exception:
     #     return HttpResponseNotFound('Página no encontrada')
 
+@permission_required('library.add_review')
 def add_review(request, book_id):
     book = get_object_or_404(Book, id_book=book_id)
     form = ReviewForm(request.POST or None)
@@ -117,9 +118,12 @@ class BookDetailView(LoginRequiredMixin, DetailView):
     context_object_name = 'book'
     
     def get(self, request, *args, **kwargs):
-        response = super().get(request, *args, **kwargs)
-        request.session['last_viewed_book'] = self.object.id_book
-        return response
+        if request.user.has_perm('library.view_book'):
+            response = super().get(request, *args, **kwargs)
+            request.session['last_viewed_book'] = self.object.id_book
+            return response
+        else:
+            return HttpResponseForbidden('Contenido no disponible (No tienes permisos)')
 
 # --------- Review
 class ReviewCreateView(CreateView):
@@ -131,7 +135,7 @@ class ReviewCreateView(CreateView):
         book_id = self.kwargs.get('pk')
         book = Book.objects.get(pk=book_id)
         form.instance.book = book
-        form.instance.user_id = 1
+        form.instance.user_id = self.request.user.id
         messages.success(self.request, 'Gracias por su reseña')
         return super().form_valid(form)
     
@@ -143,6 +147,9 @@ class ReviewUpdateView(UpdateView):
     template_name = 'library/add_review.html'
     form_class = ReviewForm
     
+    def get_queryset(self):
+        return Review.objects.filter(user_id=self.request.user.id)
+    
     def form_valid(self, form):
         messages.success(self.request, 'Gracias por su reseña')
         return super().form_valid(form)
@@ -152,18 +159,19 @@ class ReviewUpdateView(UpdateView):
         book_id = review.book.id_book
         return reverse_lazy('book_detail', kwargs={'pk': book_id})
 
-class ReviewDeleteView(DeleteView):
+class ReviewDeleteView(PermissionRequiredMixin, DeleteView):
+    permission_required = 'library.delete_review'
     model = Review
     template_name = 'library/review_confirm_delete.html'
     success_url = reverse_lazy('book_list')
     context_object_name = 'review'
 
     def get_queryset(self):
-        return Review.objects.filter(user_id=1)
+        return Review.objects.filter(user_id=self.request.user.id)
 
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, 'La reseña fue eliminada con exito!')
-        return super().delete(self, request, *args, **kwargs)
+        return super().delete(request, *args, **kwargs)
 
 # ListView (READ)
 class AuthorListView(ListView):

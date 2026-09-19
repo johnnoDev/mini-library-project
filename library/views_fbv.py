@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 from .models import Author
 from .forms import AuthorForm
+from django.contrib.auth.decorators import permission_required
 
 # ==== READ
 
@@ -17,6 +18,7 @@ def author_detail_fbv(request, pk):
     
 # ==== CREATE
 
+@permission_required('library.add_author')
 def author_create_fbv(request):
     if request.method == 'POST':
         form = AuthorForm(request.POST) # Pasar los datos que tipeo el usuario
