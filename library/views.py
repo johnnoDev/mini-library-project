@@ -10,11 +10,13 @@ from .models import Author, Genre, Book, Review
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 User = get_user_model()
 
-
+@login_required
 def index(request):
     # try:
         books = Book.objects.all()
@@ -109,7 +111,7 @@ class BookListView(ListView):
     context_object_name = 'books'
     paginate_by = 5
     
-class BookDetailView(DetailView):
+class BookDetailView(LoginRequiredMixin, DetailView):
     model = Book
     template_name = 'library/book_detail.html'
     context_object_name = 'book'

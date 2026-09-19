@@ -136,5 +136,6 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 # Guarde la sesión en la BD y actualice la cookie cada vez que el usuario haga un request
 SESSION_SAVE_EVERY_REQUEST = True
 
+LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'book_list'
 LOGOUT_REDIRECT_URL = 'login'
